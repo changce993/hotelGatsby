@@ -1,42 +1,46 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
-import React from "react"
+import React from 'react'
+import { css } from 'styled-components';
+import Navigation from './Navigation';
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
+const Header = ({ left, right }) => {
+
+    if(left === undefined) left = 'white';
+
+    return (
+        <header
+            css={css`
+                background-color: transparent;
+                padding:2rem;
+                width:100%;
+                position:absolute; 
+                top:0;
+                left:0;
+                z-index:10000;
+            `}
         >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+            <div 
+                css={css`
+                    max-width:1200px;
+                    margin:0 auto;
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
+                    @media(min-width: 768px){
+                        display:flex;
+                        align-items:center;
+                        justify-content:space-between;
+                    }
+                `}
+            >
+                <img
+                    css={css`
+                        height:5rem;
+                    `}
+                    alt='Gatsby logo svg'
+                src='https://decodenatura.com/static/fa38ab30a9b8abb4a1ff8c0b7fb86cef/Gatsby_Logo.png'/>
 
-Header.defaultProps = {
-  siteTitle: ``,
+                <Navigation right={right}/>
+            </div>
+        </header>
+    )
 }
 
 export default Header

@@ -1,7 +1,30 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.com/docs/node-apis/
- */
+exports.createPages = async ({ actions, graphql, reporter }) => {
 
-// You can delete this file if you're not using it
+    const resultado = await graphql(`
+        query {
+            allDatoCmsHabitacion{
+                nodes {
+                slug
+                }
+            }
+        }
+    `);
+
+    // console.log(resultado.data.allDatoCmsHabitacion.nodes)
+
+    if(resultado.errors){
+        reporter.panic('No hubo resultado ', resultado.errors)
+    }
+
+    const habitaciones = resultado.data.allDatoCmsHabitacion.nodes;
+
+    habitaciones.forEach(habitacion => {
+        actions.createPage({
+            path: habitacion.slug,
+            component: require.resolve('./src/components/Habitaciones.js'),
+            context: {
+                slug: habitacion.slug
+            }
+        })
+    })
+}
